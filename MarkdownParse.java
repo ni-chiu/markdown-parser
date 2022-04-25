@@ -18,22 +18,32 @@ public class MarkdownParse {
             int closeBracket = markdown.indexOf("]", openBracket);
             int openParen = markdown.indexOf("(", closeBracket);
             int closeParen = markdown.indexOf(")", openParen);
+
+            // Break if open or close parenthesis are not present
             if (closeParen == -1 || openParen == -1 ){
+                System.out.println("Error in link formatting!");
                 break;
             }
-            if (openBracket < 0) {
+
+            // Catches extra character after last parenthesis edge case
+            else if (openBracket < 0) {
                 break;
             }
+
+            // Break if open or close brackets are not present
+            else if (openBracket == -1 || closeBracket == -1 ){
+                System.out.println("Error in link formatting!");
+                break;
+            }
+            
+            //System.out.println("Brackets: " + openBracket + ", " + closeBracket);
+            //System.out.println("Parens: " + openParen + ", " + closeParen);
+            //System.out.println("Current Index: " + currentIndex);
             toReturn.add(markdown.substring(openParen + 1, closeParen));
             currentIndex = closeParen + 1;
-            System.out.println("Brackets: " + openBracket + ", " + closeBracket);
-            System.out.println("Parens: " + openParen + ", " + closeParen);
-            System.out.println("Current Index: " + currentIndex);
         }
-
         return toReturn;
     }
-
 
     public static void main(String[] args) throws IOException {
         Path fileName = Path.of(args[0]);
